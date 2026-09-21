@@ -16,7 +16,10 @@ public abstract class ServerGamePacketListenerMixin {
         ServerGamePacketListenerImpl self = (ServerGamePacketListenerImpl)(Object)this;
         Entity vehicle = self.player.getVehicle();
         if (vehicle instanceof SnifferRiderEntityAccess access) {
-            access.snifferRider$setInput(packet.getXxa(), packet.getZza(), packet.isJumping());
+            var input = packet.input();
+            float forward = (input.forward() ? 1.0f : 0.0f) - (input.backward() ? 1.0f : 0.0f);
+            float sideways = (input.right() ? 1.0f : 0.0f) - (input.left() ? 1.0f : 0.0f);
+            access.snifferRider$setInput(sideways, forward, input.jump());
         }
     }
 }
