@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "package": "khawi.snifferrider.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "SnifferEntityMixin",
+    "ServerGamePacketListenerMixin"
+  ]
+}
