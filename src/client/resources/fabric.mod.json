@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "sniffer_rider",
+  "version": "${version}",
+  "name": "Sniffer Rider",
+  "description": "Ride Sniffers with a saddle and give them a 17-slot chest.",
+  "authors": ["Khawi"],
+  "environment": "client",
+  "entrypoints": {
+    "client": ["khawi.snifferrider.client.SnifferRiderClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.0",
+    "minecraft": "~1.21.11",
+    "java": ">=21"
+  }
+}
