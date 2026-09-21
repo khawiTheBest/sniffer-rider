@@ -5,23 +5,17 @@ import khawi.snifferrider.SnifferRider;
 import khawi.snifferrider.SnifferRiderEntityAccess;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.passive.Sniffer;
-import net.minecraft.world.entity.vehicle.Vehicle;
+import net.minecraft.world.entity.animal.sniffer.Sniffer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.entity.MoverType;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ServerLevel;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -51,7 +45,7 @@ public abstract class SnifferEntityMixin implements SnifferRiderEntityAccess {
         snifferRider$jump = jump;
     }
 
-    @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
     private void snifferRider$interact(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         ItemStack stack = player.getItemInHand(hand);
         Sniffer self = (Sniffer)(Object)this;
@@ -70,7 +64,7 @@ public abstract class SnifferEntityMixin implements SnifferRiderEntityAccess {
             return;
         }
 
-        if (stack.isEmpty() && snifferRider$saddled && snifferRider$hasChest && !player.isShiftKeyDown() && player.level() instanceof ServerLevel serverLevel) {
+        if (stack.isEmpty() && snifferRider$saddled && snifferRider$hasChest && !player.isShiftKeyDown() && player.level() instanceof ServerLevel) {
             player.openMenu(new ExtendedScreenHandlerFactory<Integer>() {
                 @Override public Component getDisplayName() {
                     return Component.translatable("container.sniffer_rider.chest");
@@ -129,6 +123,6 @@ public abstract class SnifferEntityMixin implements SnifferRiderEntityAccess {
 
         self.getNavigation().stop();
         self.setDeltaMovement(dx, self.getDeltaMovement().y, dz);
-        self.move(MoverType.SELF, self.getDeltaMovement());
+        self.move(net.minecraft.world.entity.MoverType.SELF, self.getDeltaMovement());
     }
 }
