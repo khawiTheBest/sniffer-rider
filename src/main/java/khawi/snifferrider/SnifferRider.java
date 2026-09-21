@@ -2,11 +2,12 @@ package khawi.snifferrider;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.resources.Identifier;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.inventory.MenuType;
 
 public class SnifferRider implements ModInitializer {
     public static final String MOD_ID = "sniffer_rider";
@@ -22,7 +23,7 @@ public class SnifferRider implements ModInitializer {
                     new ExtendedScreenHandlerType<>(
                             (syncId, inventory, entityId) ->
                                     new SnifferChestMenu(syncId, inventory, entityId, null),
-                            new com.mojang.serialization.Codec<>() {}
+                            ByteBufCodecs.VAR_INT
                     )
             );
 
