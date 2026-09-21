@@ -1,0 +1,32 @@
+package khawi.snifferrider;
+
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.core.Registry;
+
+public class SnifferRider implements ModInitializer {
+    public static final String MOD_ID = "sniffer_rider";
+
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
+
+    public static final MenuType<SnifferChestMenu> SNIFFER_CHEST_MENU =
+            Registry.register(
+                    Registries.MENU,
+                    id("sniffer_chest"),
+                    new ExtendedScreenHandlerType<>(
+                            (syncId, inventory, entityId) ->
+                                    new SnifferChestMenu(syncId, inventory, entityId, null),
+                            RegistryFriendlyByteBuf::readVarInt
+                    )
+            );
+
+    @Override
+    public void onInitialize() {
+    }
+}
